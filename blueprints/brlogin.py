@@ -262,7 +262,14 @@ def broker_callback(broker,para=None):
         # Fetch auth token, feed token and user ID
         auth_token, feed_token, user_id, error_message = auth_function(code)
         forward_url = 'broker.html'
-
+    elif broker=='aryafingroup':
+        code = 'aryafingroup'
+        logger.debug(f'Arya Fin Group broker - The code is {code}')  
+               
+        # Fetch auth token, feed token and user ID
+        auth_token, feed_token, user_id, error_message = auth_function(code)
+        logger.debug(f'Arya Fin Group auth_token: {auth_token}, feed_token: {feed_token}, user_id: {user_id}, error_message: {error_message}')
+        forward_url = 'broker.html'
     elif broker=='dhan':
         auth_token = None
         error_message = None

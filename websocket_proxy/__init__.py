@@ -38,6 +38,9 @@ from broker.fivepaisaxts.streaming.fivepaisaxts_adapter import FivepaisaXTSWebSo
 # Import the iifl_adapter
 from broker.iifl.streaming.iifl_adapter import IiflWebSocketAdapter
 
+# Import the aryafingroup_adapter
+from broker.aryafingroup.streaming.aryafingroup_adapter import AryafingroupWebSocketAdapter
+
 # Import the wisdom_adapter
 from broker.wisdom.streaming.wisdom_adapter import WisdomWebSocketAdapter
 
@@ -69,6 +72,7 @@ register_adapter("compositedge", CompositedgeWebSocketAdapter)
 register_adapter("fivepaisa", FivepaisaWebSocketAdapter)
 register_adapter("fivepaisaxts", FivepaisaXTSWebSocketAdapter)
 register_adapter("iifl", IiflWebSocketAdapter)
+register_adapter("aryafingroup", AryafingroupWebSocketAdapter)
 register_adapter("wisdom", WisdomWebSocketAdapter)
 register_adapter("upstox", UpstoxWebSocketAdapter)
 register_adapter("kotak", KotakWebSocketAdapter)
@@ -93,6 +97,7 @@ __all__ = [
     'FivepaisaWebSocketAdapter',
     'FivepaisaXTSWebSocketAdapter',
     'IiflWebSocketAdapter',
+    'AryafingroupWebSocketAdapter',
     'JainamWebSocketAdapter',
     'TrustlineWebSocketAdapter',
     'WisdomWebSocketAdapter',

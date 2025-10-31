@@ -336,7 +336,7 @@ def get_supported_brokers_list() -> Tuple[bool, Dict[str, Any], int]:
         # Define brokers with WebSocket support
         websocket_enabled_brokers = [
             'zerodha', 'angel', 'fivepaisaxts', 'aliceblue', 'dhan', 
-            'flattrade', 'shoonya', 'upstox', 'compositedge', 'iifl', 
+            'flattrade', 'shoonya', 'upstox', 'compositedge', 'iifl', "aryafingroup",
             'ibulls', 'wisdom'
         ]
         

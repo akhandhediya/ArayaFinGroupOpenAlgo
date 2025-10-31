@@ -77,6 +77,9 @@
                 case 'iifl':
                     loginUrl = '/iifl/callback';
                     break;
+                case 'aryafingroup':
+                    loginUrl = '/aryafingroup/callback';
+                    break;
                 case 'kotak':
                     loginUrl = '/kotak/callback';
                     break;
@@ -175,6 +178,7 @@
                                 <option value="groww" {{ 'disabled' if broker_name != 'groww' }}>Groww {{ '(Disabled)' if broker_name != 'groww' }}</option>
                                 <option value="ibulls" {{ 'disabled' if broker_name != 'ibulls' }}>Ibulls {{ '(Disabled)' if broker_name != 'ibulls' }}</option>
                                 <option value="iifl" {{ 'disabled' if broker_name != 'iifl' }}>IIFL {{ '(Disabled)' if broker_name != 'iifl' }}</option>
+                                <option value="aryafingroup" {{ 'disabled' if broker_name != 'aryafingroup' }}>Arya Fin Group {{ '(Disabled)' if broker_name != 'aryafingroup' }}</option>
                                 <option value="kotak" {{ 'disabled' if broker_name != 'kotak' }}>Kotak Securities {{ '(Disabled)' if broker_name != 'kotak' }}</option>
                                 <option value="paytm" {{ 'disabled' if broker_name != 'paytm' }}>Paytm Money {{ '(Disabled)' if broker_name != 'paytm' }}</option>
                                 <option value="pocketful" {{ 'disabled' if broker_name != 'pocketful' }}>Pocketful {{ '(Disabled)' if broker_name != 'pocketful' }}</option>

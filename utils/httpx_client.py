@@ -130,7 +130,8 @@ def _create_http_client() -> httpx.Client:
 
         # Disable HTTP/2 in standalone/Docker environments to avoid protocol negotiation issues
         http2_enabled = not is_standalone
-
+        verify_ssl = os.getenv('VERIFY_SSL', 'FALSE').strip().upper() == 'TRUE'
+            
         client = httpx.Client(
             http2=http2_enabled,  # Disable HTTP/2 in standalone mode, enable in integrated mode
             http1=True,  # Always enable HTTP/1.1 for compatibility
@@ -141,7 +142,7 @@ def _create_http_client() -> httpx.Client:
                 keepalive_expiry=120.0  # 2 minutes - good balance
             ),
             # Add verify parameter to handle SSL/TLS issues in standalone mode
-            verify=True,  # Can be set to False for debugging SSL issues (not recommended for production)
+            verify=verify_ssl,  # Can be set to False for debugging SSL issues (not recommended for production)
             # Add event hooks for latency tracking
             event_hooks={
                 'request': [log_request],
