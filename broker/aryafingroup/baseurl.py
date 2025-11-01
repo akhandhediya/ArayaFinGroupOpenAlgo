@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 class URLConfig:
     """Configuration object for Arya broker URLs."""
+    HOST_LOOKUP_URL = "http://xtstradingnse.aryafingroup.in:3000/hostlookup"
     BASE_URL = "http://xtstradingnse.aryafingroup.in:3000"
     
     @classmethod

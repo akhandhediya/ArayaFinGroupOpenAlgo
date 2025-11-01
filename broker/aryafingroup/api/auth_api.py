@@ -12,7 +12,7 @@ def hostlookup_login():
     """Send the login url to which a user should receive the token."""
     try:
         BASE_URL = URLConfig.BASE_URL
-        HOST_LOOKUP_URL = f"{BASE_URL}/hostlookup"
+        HOST_LOOKUP_URL = URLConfig.HOST_LOOKUP_URL
         
         params = {
             "accesspassword": os.getenv('HOSTLOOKUP_ACCESS_PASSWORD', '2021HostLookUpAccess'),

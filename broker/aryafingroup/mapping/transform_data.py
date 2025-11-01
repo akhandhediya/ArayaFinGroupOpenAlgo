@@ -26,7 +26,8 @@ def transform_data(data,token):
         "orderQuantity": data["quantity"],
         "limitPrice": data.get("price", "0"),
         "stopPrice": data.get("trigger_price", "0"),
-        "orderUniqueIdentifier": "openalgo"
+        "orderUniqueIdentifier": "openalgo",
+        "clientID":"*****"
     }
     logger.info(f"transformed data: {transformed}")
     return transformed
@@ -42,7 +43,8 @@ def transform_modify_order_data(data, token):
         "modifiedLimitPrice": data["price"],
         "modifiedStopPrice": data.get("trigger_price", "0"),
         "modifiedTimeInForce": "DAY",
-        "orderUniqueIdentifier": "openalgo"
+        "orderUniqueIdentifier": "openalgo",
+        "clientID":"*****"
     }
 
 def map_exchange(exchange):
@@ -67,12 +69,12 @@ def map_order_type(pricetype):
     Maps the new pricetype to the existing order type.
     """
     order_type_mapping = {
-        "MARKET": "MARKET",
+        "MARKET": "LIMIT",
         "LIMIT": "LIMIT",
         "SL": "SL-L",
         "SL-M": "SL-M"
     }
-    return order_type_mapping.get(pricetype, "MARKET")  # Default to MARKET if not found
+    return order_type_mapping.get(pricetype, "LIMIT")  # Default to LIMIT if not found
 
 def map_product_type(product):
     """

@@ -54,7 +54,10 @@ def request(
 
     # Track actual broker API call time for latency monitoring
     broker_api_start = time.time()
+    logger.info(f"Making {method} request to {url} with headers: {kwargs.get('headers', {})} and data: {kwargs.get('data', {})}")
     response = client.request(method, url, **kwargs)
+    logger.info(f"Received response with status code {response.status_code} from {url}")
+    logger.info(f"Response content: {response.text}")
     broker_api_end = time.time()
 
     # Store broker API time in Flask's g object for latency tracking

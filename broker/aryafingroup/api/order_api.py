@@ -25,7 +25,22 @@ def get_api_response(endpoint, auth, method="GET",  payload=''):
     }
 
     url = f"{URLConfig.INTERACTIVE_URL}{endpoint}"
+    #check if url is already has '?clientID=' in it then don't add again
+    if '?clientID=' not in url:
+        if '?' in url:
+            url = f"{url}&clientID=*****"
+        else:
+            url = f"{url}?clientID=*****"
 
+    # check if payload has clientID key then don't add again else add it
+    if isinstance(payload, dict) and "clientID" in payload:
+        pass
+    elif method == "POST":
+        if isinstance(payload, dict):
+            payload["clientID"] = "*****"
+        else:
+            payload = {"clientID": "*****"}
+    
     #logger.info(f"Request URL: {url}")
     #logger.info(f"Headers: {headers}")
     #logger.info(f"Payload: {json.dumps(payload, indent=2) if payload else 'None'}")
@@ -44,13 +59,13 @@ def get_api_response(endpoint, auth, method="GET",  payload=''):
     return response.json()
 
 def get_order_book(auth):
-    return get_api_response("/orders",auth)
+    return get_api_response("/orders/dealerorderbook",auth)
 
 def get_trade_book(auth):
-    return get_api_response("/orders/trades",auth)
+    return get_api_response("/orders/dealertradebook",auth)
 
 def get_positions(auth):
-    return get_api_response("/portfolio/positions?dayOrNet=NetWise",auth)
+    return get_api_response("/portfolio/dealerpositions?dayOrNet=NetWise",auth)
 
 def get_holdings(auth):
     return get_api_response("/portfolio/holdings",auth)
@@ -82,7 +97,7 @@ def place_order_api(data,auth):
     else:
         # Traditional symbol-based payload that needs transformation
         token = get_token(data['symbol'], data['exchange'])
-        logger.info(f"token: {token}")
+        logger.info(f"tkn: {token}")
         newdata = transform_data(data, token)
 
     headers = {
@@ -93,12 +108,21 @@ def place_order_api(data,auth):
     # Get the shared httpx client with connection pooling
     client = get_httpx_client()
     
+    logger.info(f"Placing order with data: {newdata}")
+    logger.info(f"Using headers: {headers}")
+    logger.info(f"POST URL: {URLConfig.INTERACTIVE_URL}/orders")
     # Make the request using the shared client
-    response = client.post(
-        f"{URLConfig.INTERACTIVE_URL}/orders",
-        headers=headers,
-        json=newdata
-    )
+    try:
+        response = client.post(
+            f"{URLConfig.INTERACTIVE_URL}/orders",
+            headers=headers,
+            json=newdata
+        )
+        print("Order response:", json.dumps(response.json(), indent=2, ensure_ascii=False))
+    # except all type of exceptions
+    except Exception as e:
+        logger.error(f"Error occurred while placing order: {e}")
+        response = httpx.Response(status_code=500, text=str(e))
     
     # Add status attribute for compatibility
     response.status = response.status_code
@@ -234,7 +258,8 @@ def close_all_positions(current_api_key,auth):
             "orderQuantity": str(quantity),
             "limitPrice": "0",
             "stopPrice": "0",
-            "orderUniqueIdentifier": "openalgo"
+            "orderUniqueIdentifier": "openalgo",
+            "clientID":"*****"
         }
 
         # Place the order to close the position
@@ -273,7 +298,7 @@ def cancel_order(orderid,auth):
     
     # Make the request using the shared client
     response = client.delete(
-    f"{URLConfig.INTERACTIVE_URL}/orders?appOrderID={orderid}",
+    f"{URLConfig.INTERACTIVE_URL}/orders?appOrderID={orderid}&clientID=*****",
     headers=headers
 )
     # Add status attribute for compatibility with the existing codebase

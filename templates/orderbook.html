@@ -198,9 +198,19 @@
                             'pending': 'badge-warning',
                             'trigger pending': 'badge-info'
                         } %}
-                        <div class="badge {{ status_colors.get(order.order_status|lower, 'badge-ghost') }}">
+                        {% set status_lower = (order.order_status|lower) if order.order_status is defined else '' %}
+                        {% set show_reason = status_lower in ['rejected', 'cancelled', 'canceled'] and (order.cancel_reject_reason is defined and order.cancel_reject_reason) %}
+                        {% if show_reason %}
+                        <div class="tooltip tooltip-bottom" data-tip="{{ order.cancel_reject_reason }}">
+                            <div class="badge {{ status_colors.get(status_lower, 'badge-ghost') }}" aria-label="{{ order.cancel_reject_reason }}">
+                                {{ order.order_status }}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="badge {{ status_colors.get(status_lower, 'badge-ghost') }}">
                             {{ order.order_status }}
                         </div>
+                        {% endif %}
                     </td>
                     <td class="text-sm">{{ order.timestamp }}</td>
                 </tr>

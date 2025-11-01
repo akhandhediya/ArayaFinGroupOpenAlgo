@@ -132,6 +132,8 @@ def transform_order_data(orders):
         if not isinstance(order, dict):
             logger.warning(f"Warning: Expected a dict, but found a {type(order)}. Skipping this item.")
             continue
+        #log order data
+        logger.info(f"Processing order: {order}")
         exchange = order.get("ExchangeSegment", "")
         mapped_exchange = exchange_mapping.get(exchange, exchange)
 
@@ -155,7 +157,8 @@ def transform_order_data(orders):
             "product": order.get("ProductType", ""),
             "orderid": str(int(float(order.get("AppOrderID", "")))),
             "order_status": mapped_order_status,
-            "timestamp": order.get("LastUpdateDateTime", "")
+            "timestamp": order.get("LastUpdateDateTime", ""),
+            "cancel_reject_reason": order.get("CancelRejectReason", "")
         }
 
         transformed_orders.append(transformed_order)
